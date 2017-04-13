@@ -17,6 +17,12 @@ use Yii;
  */
 class Project extends \yii\db\ActiveRecord
 {
+    const STATUS_DISABLED = 0;
+    const STATUS_HEALTHY = 10;
+    const STATUS_WARNING = 20;
+    const STATUS_CRITICAL = 30;
+    const STATUS_UNCHECKED = 40;
+
     /**
      * @inheritdoc
      */

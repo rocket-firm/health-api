@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use app\components\AvailabilityTester;
 use Yii;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "project".
@@ -83,5 +85,49 @@ class Project extends \yii\db\ActiveRecord
     public function getAvailability()
     {
         return ProjectAvailability::find()->byProject($this);
+    }
+
+    /**
+     * @return ProjectAvailability
+     * @throws Exception
+     */
+    public function testAvailability()
+    {
+        $tester = (new AvailabilityTester($this->url))->test();
+
+        if ($this->status !== self::getStatusByResponseCode($tester->responseCode)) {
+            $this->status = $tester->responseCode;
+            $this->save(true, ['status']);
+        }
+
+        $availabilityReport = new ProjectAvailability([
+            'projectId' => $this->id,
+            'status' => self::getStatusByResponseCode($tester->responseCode),
+            'responseCode' => $tester->responseCode
+        ]);
+
+        if ($availabilityReport->save()) {
+            return $availabilityReport;
+        }
+
+        throw new Exception('Error saving availability report: '
+            . json_encode($availabilityReport->getErrors()));
+    }
+
+    /**
+     * Checks responseCode and returns project status
+     *
+     * @param int $responseCode
+     * @return int
+     */
+    public static function getStatusByResponseCode($responseCode)
+    {
+        if ($responseCode === 200) {
+            return self::STATUS_HEALTHY;
+        } elseif ($responseCode >= 300 && $responseCode < 400) {
+            return self::STATUS_WARNING;
+        }
+
+        return self::STATUS_CRITICAL;
     }
 }

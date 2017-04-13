@@ -5,7 +5,7 @@ namespace app\models;
 /**
  * This is the ActiveQuery class for [[ProjectAvailability]].
  *
- * @see ProjectAvailability
+ * @see ProjectAvailabilityController
  */
 class ProjectAvailabilityQuery extends \yii\db\ActiveQuery
 {

@@ -42,6 +42,7 @@ $config = [
             'rules' => [
                 'GET v1/projects' => 'apiV1/project/index',
                 'POST v1/projects' => 'apiV1/project/create',
+                'POST v1/project/<projectId:\d+>/availability' => 'apiV1/project-availability/create',
             ],
         ],
     ],

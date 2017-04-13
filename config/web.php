@@ -3,7 +3,8 @@
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'health',
+    'id' => 'health-api',
+    'name' => 'health-api',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'apiV1'],
     'components' => [

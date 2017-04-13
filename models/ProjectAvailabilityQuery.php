@@ -18,7 +18,7 @@ class ProjectAvailabilityQuery extends \yii\db\ActiveQuery
     public function latestByProject(Project $project)
     {
         $this->primaryModel = $project;
-        $this->link = ['id' => 'projectId'];
+        $this->link = ['projectId' => 'id'];
         $this->multiple = false;
         return $this->latest();
     }

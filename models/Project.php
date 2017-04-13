@@ -96,7 +96,7 @@ class Project extends \yii\db\ActiveRecord
         $tester = (new AvailabilityTester($this->url))->test();
 
         if ($this->status !== self::getStatusByResponseCode($tester->responseCode)) {
-            $this->status = $tester->responseCode;
+            $this->status = self::getStatusByResponseCode($tester->responseCode);
             $this->save(true, ['status']);
         }
 

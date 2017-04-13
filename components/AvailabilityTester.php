@@ -26,7 +26,7 @@ class AvailabilityTester
     public $responseCode;
 
     /**
-     * @var float URL get time
+     * @var int URL get time in seconds
      */
     public $execTime;
 
@@ -55,16 +55,25 @@ class AvailabilityTester
     protected function execChannel()
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->url);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
+        $options = array(
+            CURLOPT_URL            => $this->url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_ENCODING       => "",
+            CURLOPT_AUTOREFERER    => true,
+            CURLOPT_CONNECTTIMEOUT => 120,
+            CURLOPT_TIMEOUT        => 120,
+            CURLOPT_MAXREDIRS      => 10,
+        );
+        curl_setopt_array( $ch, $options );
 
-        $startTime = microtime(true);
         $response = curl_exec($ch);
-        $this->execTime = microtime(true) - $startTime;
 
-        $this->responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);;
-
+        $this->responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $this->execTime = curl_getinfo($ch, CURLINFO_TOTAL_TIME);
         curl_close($ch);
+
         return $response;
     }
 }

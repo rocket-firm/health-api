@@ -68,4 +68,20 @@ class Project extends \yii\db\ActiveRecord
     {
         return new ProjectQuery(get_called_class());
     }
+
+    /**
+     * @return ProjectAvailabilityQuery
+     */
+    public function getLatestAvailability()
+    {
+        return ProjectAvailability::find()->latestByProject($this);
+    }
+
+    /**
+     * @return ProjectAvailabilityQuery
+     */
+    public function getAvailability()
+    {
+        return ProjectAvailability::find()->byProject($this);
+    }
 }

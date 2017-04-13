@@ -11,7 +11,7 @@ $this->title = 'RocketHealth';
 
         <p class="lead">Monitoring your projects' health since 2017</p>
 
-        <p><a class="btn btn-lg btn-success" href="#">Dive into documentation</a></p>
+        <p><a class="btn btn-lg btn-success" href="https://github.com/rocket-firm/health-api">Dive into documentation</a></p>
     </div>
 
     <div class="body-content">

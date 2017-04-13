@@ -38,8 +38,8 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'GitHub page', 'url' => '#'],
-            ['label' => 'Documentation', 'url' => '#'],
+            ['label' => 'GitHub page', 'url' => 'https://github.com/rocket-firm/health-api'],
+            ['label' => 'Documentation', 'url' => 'https://github.com/rocket-firm/health-api'],
         ],
     ]);
     NavBar::end();

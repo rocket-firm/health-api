@@ -38,9 +38,6 @@ class BaseController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => $this->verbs(),
             ],
-            'authenticator' => [
-                'class' => CompositeAuth::className(),
-            ],
             'rateLimiter' => [
                 'class' => RateLimiter::className(),
             ],

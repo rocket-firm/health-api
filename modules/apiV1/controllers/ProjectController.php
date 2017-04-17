@@ -27,7 +27,7 @@ class ProjectController extends BaseController
         $model->load(\Yii::$app->request->post(), '');
 
         if ($model->save()) {
-            return ['success' => true, 'id' => $model->id];
+            return ['success' => true, 'id' => $model];
         }
 
         return ['success' => false, 'errors' => $model->getErrors()];

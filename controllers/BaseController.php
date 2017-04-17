@@ -8,8 +8,6 @@
 
 namespace app\controllers;
 
-
-use yii\filters\auth\CompositeAuth;
 use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
@@ -42,5 +40,15 @@ class BaseController extends Controller
                 'class' => RateLimiter::className(),
             ],
         ];
+    }
+
+    /**
+     * TODO: check permissions
+     *
+     * @return bool
+     */
+    public function actionOptions()
+    {
+        return true;
     }
 }

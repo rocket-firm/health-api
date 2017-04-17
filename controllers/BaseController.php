@@ -13,6 +13,7 @@ use yii\filters\auth\CompositeAuth;
 use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
 use yii\filters\VerbFilter;
+use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\web\Response;
 
@@ -29,6 +30,9 @@ class BaseController extends Controller
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
+            ],
+            'cors' => [
+                'class' => Cors::className()
             ],
             'verbFilter' => [
                 'class' => VerbFilter::className(),

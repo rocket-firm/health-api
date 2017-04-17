@@ -11,6 +11,7 @@ namespace app\modules\apiV1\controllers;
 use app\controllers\BaseController;
 use app\models\Project;
 use app\modules\apiV1\models\ProjectSearch;
+use yii\web\NotFoundHttpException;
 
 class ProjectController extends BaseController
 {
@@ -28,6 +29,32 @@ class ProjectController extends BaseController
 
         if ($model->save()) {
             return ['success' => true, 'project' => $model];
+        }
+
+        return ['success' => false, 'errors' => $model->getErrors()];
+    }
+
+    public function actionDelete($id)
+    {
+        $model = Project::findOne($id);
+
+        if (!$model) {
+            return false;
+        }
+
+        return $model->delete();
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = Project::findOne($id);
+
+        if (!$model) {
+            throw new NotFoundHttpException('Project not found');
+        }
+
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            return ['success' => true];
         }
 
         return ['success' => false, 'errors' => $model->getErrors()];

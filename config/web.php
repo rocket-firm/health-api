@@ -44,6 +44,8 @@ $config = [
                 'GET v1/projects' => 'apiV1/project/index',
                 'OPTIONS v1/projects' => 'apiV1/project/index',
                 'POST v1/projects' => 'apiV1/project/create',
+                'DELETE v1/project/<id:\d+>' => 'apiV1/project/delete',
+                'PUT v1/project/<id:\d+>' => 'apiV1/project/update',
                 'POST v1/project/<projectId:\d+>/availability' => 'apiV1/project-availability/create',
             ],
         ],

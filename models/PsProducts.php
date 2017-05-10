@@ -84,11 +84,11 @@ class PsProducts extends \yii\db\ActiveRecord
      */
     public function setApiData($apiData)
     {
-        $this->product_id = $apiData['id'];
-        $this->domain = $apiData['domain'];
-        $this->description = $apiData['description'];
-        $this->diskusage = $apiData['options']['diskusage'];
-        $this->disklimit = $apiData['options']['disklimit'];
+        $this->product_id = $apiData->id;
+        $this->domain = $apiData->domain;
+        $this->description = $apiData->description;
+        $this->diskusage = $apiData->options->diskusage;
+        $this->disklimit = $apiData->options->disklimit;
 
         return $this;
     }

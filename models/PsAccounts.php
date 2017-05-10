@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\PsApiHelper;
 use Yii;
 
 /**
@@ -69,12 +70,20 @@ class PsAccounts extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public function getApiUrl()
+    {
+        return "https://api.ps.kz/client/get-product-list?username={$this->username}&password={$this->password}&input_format=http&output_format=json";
+    }
+
+    /**
      * @param $apiData
      * @return PsProducts
      */
-    public function addProduct($apiData)
+    public function addOrUpdateProduct($apiData)
     {
-        $product = PsProducts::findOne(['product_id' => $apiData['id']]);
+        $product = PsProducts::findOne(['product_id' => $apiData->id]);
 
         if (empty($product)) {
             $product = new PsProducts([
@@ -83,5 +92,28 @@ class PsAccounts extends \yii\db\ActiveRecord
         }
 
         return $product->setApiData($apiData);
+    }
+
+    /**
+     * Fetches PS API data
+     */
+    public function getApiData()
+    {
+        $api = new PsApiHelper($this);
+        $apiData = $api->getApiData();
+        if (!empty($apiData->answer->products)) {
+            foreach ($apiData->answer->products as $product) {
+                $this->addOrUpdateProduct($product)->save();
+            }
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $this->getApiData();
     }
 }

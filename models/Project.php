@@ -25,6 +25,12 @@ class Project extends \yii\db\ActiveRecord
     const STATUS_CRITICAL = 30;
     const STATUS_UNCHECKED = 40;
 
+    public function init()
+    {
+        parent::init();
+        $this->status = self::STATUS_UNCHECKED;
+    }
+
     /**
      * @inheritdoc
      */
@@ -129,5 +135,12 @@ class Project extends \yii\db\ActiveRecord
         }
 
         return self::STATUS_CRITICAL;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        $this->testAvailability();
     }
 }

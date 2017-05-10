@@ -12,6 +12,8 @@ use Yii;
  * @property string $password
  * @property string $updated_at
  * @property string $created_at
+ *
+ * @property PsProducts[] $psProducts
  */
 class PsAccounts extends \yii\db\ActiveRecord
 {
@@ -50,11 +52,36 @@ class PsAccounts extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPsProducts()
+    {
+        return $this->hasMany(PsProducts::className(), ['account_id' => 'id']);
+    }
+
+    /**
      * @inheritdoc
      * @return PsAccountsQuery the active query used by this AR class.
      */
     public static function find()
     {
         return new PsAccountsQuery(get_called_class());
+    }
+
+    /**
+     * @param $apiData
+     * @return PsProducts
+     */
+    public function addProduct($apiData)
+    {
+        $product = PsProducts::findOne(['product_id' => $apiData['id']]);
+
+        if (empty($product)) {
+            $product = new PsProducts([
+                'account_id' => $this->id
+            ]);
+        }
+
+        return $product->setApiData($apiData);
     }
 }

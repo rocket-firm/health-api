@@ -10,7 +10,7 @@ namespace app\modules\apiV1\controllers;
 
 use app\controllers\BaseActiveController;
 
-class PsAccountController extends BaseActiveController
+class PsProductController extends BaseActiveController
 {
     public $modelClass = '\app\models\PsProducts';
 }

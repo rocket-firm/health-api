@@ -19,7 +19,8 @@ class Project extends BaseProject
     public function fields()
     {
         return ArrayHelper::merge(parent::fields(), [
-            'availability' => 'latestAvailability'
+            'availability' => 'latestAvailability',
+            'pageSpeed' => 'latestPageSpeed'
         ]);
     }
 }

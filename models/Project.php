@@ -16,6 +16,8 @@ use yii\db\Exception;
  * @property int $status
  * @property string $createdAt
  * @property string $updatedAt
+ * @property PageSpeed[] $pageSpeed
+ * @property PageSpeed $latestPageSpeed
  */
 class Project extends \yii\db\ActiveRecord
 {
@@ -91,6 +93,22 @@ class Project extends \yii\db\ActiveRecord
     public function getAvailability()
     {
         return ProjectAvailability::find()->byProject($this);
+    }
+
+    /**
+     * @return PageSpeedQuery
+     */
+    public function getLatestPageSpeed()
+    {
+        return PageSpeed::find()->latestByProject($this);
+    }
+
+    /**
+     * @return PageSpeedQuery
+     */
+    public function getPageSpeed()
+    {
+        return PageSpeed::find()->byProject($this);
     }
 
     /**

@@ -95,10 +95,19 @@ class PageSpeed extends \yii\db\ActiveRecord
         $object->mobile = $mobileData->ruleGroups->SPEED->score;
         $object->usability = $mobileData->ruleGroups->USABILITY->score;
 
-        if (!$object->save()) {
-            var_dump($object->getErrors()); die;
-        }
+        return $object->save();
+    }
 
-        return true;
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        return [
+            'desktop',
+            'mobile',
+            'usability',
+            'createdAt' => 'created_at'
+        ];
     }
 }

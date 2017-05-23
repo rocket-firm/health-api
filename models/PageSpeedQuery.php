@@ -7,7 +7,7 @@ namespace app\models;
  *
  * @see PageSpeed
  */
-class PagespeedQuery extends \yii\db\ActiveQuery
+class PageSpeedQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {

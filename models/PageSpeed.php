@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\PageSpeedHelper;
 use Yii;
 
 /**
@@ -13,6 +14,7 @@ use Yii;
  * @property int $mobile
  * @property int $usability
  * @property string $created_at
+ * @property Project $project
  */
 class PageSpeed extends \yii\db\ActiveRecord
 {
@@ -53,10 +55,50 @@ class PageSpeed extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return PagespeedQuery the active query used by this AR class.
+     * @return PageSpeedQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new PagespeedQuery(get_called_class());
+        return new PageSpeedQuery(get_called_class());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProject()
+    {
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
+    }
+
+    /**
+     * Saves PageSpeed scores to DB
+     *
+     * @param Project $project
+     * @param $apiKey
+     * @return bool
+     */
+    public static function registerProject(Project $project, $apiKey)
+    {
+        $object = new self(['project_id' => $project->id]);
+
+        $helperDesktop = new PageSpeedHelper($project->url, $apiKey);
+        $helperMobile = new PageSpeedHelper($project->url, $apiKey, PageSpeedHelper::STRATEGY_MOBILE);
+
+        try {
+            $desktopData = $helperDesktop->getApiData();
+            $mobileData = $helperMobile->getApiData();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        $object->desktop = $desktopData->ruleGroups->SPEED->score;
+        $object->mobile = $mobileData->ruleGroups->SPEED->score;
+        $object->usability = $mobileData->ruleGroups->USABILITY->score;
+
+        if (!$object->save()) {
+            var_dump($object->getErrors()); die;
+        }
+
+        return true;
     }
 }

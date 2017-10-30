@@ -22,6 +22,13 @@ class ProjectAvailabilityController extends BaseController
         return $project->testAvailability();
     }
 
+    /**
+     * Finds required project
+     *
+     * @param $id
+     * @return Project
+     * @throws NotFoundHttpException
+     */
     private function findProject($id)
     {
         $project = Project::findOne($id);

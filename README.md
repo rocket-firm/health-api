@@ -30,6 +30,15 @@ If you created `db_health_tests` database for testing environment run the follow
 $ php tests/bin/yii migrate
 ```
 
+### Using PageSpeed API
+
+Obtain PageSpeed API key from here [Google Developer Console](https://console.developers.google.com/apis/library/pagespeedonline.googleapis.com/)
+and copy `.params-local.php` file to `params-local.php` inside your `config` folder.
+
+```bash
+$ cp config/.params-local.php config/params-local.php
+```
+
 ## Testing
 
 Run tests by
